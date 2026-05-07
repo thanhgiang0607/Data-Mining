@@ -1,4 +1,4 @@
-# 🚀 E-Commerce Semantic Search Engine with Data Lakehouse Architecture
+# 🚀 Nâng cao hiệu quả tìm kiếm thương mại điện tử bằng truy xuất ngữ nghĩa: Thiết kế hệ thống dựa trên kiến trúc Data Lakehouse và đánh giá thực nghiệm 
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![Databricks](https://img.shields.io/badge/Platform-Databricks-orange.svg)](https://databricks.com/)
