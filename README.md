@@ -1,210 +1,208 @@
-# 🚀 Nâng cao hiệu quả tìm kiếm thương mại điện tử bằng truy xuất ngữ nghĩa: Thiết kế hệ thống dựa trên kiến trúc Data Lakehouse và đánh giá thực nghiệm 
+# 🚀 Semantic Search for E-commerce using Data Lakehouse Architecture
 
 [![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)](https://www.python.org/)
 [![Databricks](https://img.shields.io/badge/Platform-Databricks-orange.svg)](https://databricks.com/)
 [![Apache Spark](https://img.shields.io/badge/Engine-Apache_Spark-red.svg)](https://spark.apache.org/)
 [![FAISS](https://img.shields.io/badge/Library-FAISS-green.svg)](https://github.com/facebookresearch/faiss)
 
-## 📌 Tổng quan dự án (Project Overview)
-Dự án này tập trung vào việc xây dựng một hệ thống tìm kiếm sản phẩm thông minh, vượt xa giới hạn của phương pháp khớp từ khóa (**Keyword Search**) truyền thống. Bằng cách ứng dụng **Truy xuất ngữ nghĩa (Semantic Search)**, hệ thống có khả năng thấu hiểu ý định người dùng thông qua ngôn ngữ tự nhiên.
+## 📌 Overview
+This project proposes an end-to-end **Semantic Search system for E-commerce** built on top of a modern **Data Lakehouse Architecture**.
 
-Hệ thống được triển khai trên nền tảng **Data Lakehouse** hiện đại, kết hợp sức mạnh xử lý dữ liệu lớn của Spark và khả năng tìm kiếm vector hiệu năng cao của FAISS.
+Unlike traditional **Keyword Search**, the system leverages:
+- Vector Embeddings
+- Semantic Retrieval
+- Metadata-aware Ranking
+- FAISS Vector Indexing
 
-## 🏗 Kiến trúc dữ liệu (Medallion Architecture)
-Dữ liệu được tổ chức theo tiêu chuẩn **Medallion Architecture** trên Delta Lake:
-- **Bronze Layer:** Lưu trữ dữ liệu thô (Raw Data) được Ingest từ các nguồn tập tin.
-- **Silver Layer:** Quy trình làm sạch, khử nhiễu và chuẩn hóa thuộc tính sản phẩm.
-- **Gold Layer:** Tầng "giàu ngữ nghĩa" (Semantic Enrichment) nơi thực hiện tạo Vector Embeddings và lưu trữ chỉ mục (Index) phục vụ truy xuất.
+to better understand user intent in natural language queries.
 
-## 🛠 Công nghệ cốt lõi (Tech Stack)
-- **Data Engineering:** Apache Spark, Delta Lake, Databricks.
-- **Machine Learning:** `Sentence-Transformers` (Model: `all-MiniLM-L6-v2`).
-- **Vector Search:** `FAISS` (Facebook AI Research).
-- **Frontend UI:** `ipywidgets` phục vụ tương tác trực tiếp trên Notebook.
-
-## 📊 Chỉ số ấn tượng (Experimental Results)
-Hệ thống đã đạt được các kết quả thực nghiệm vượt trội:
-* **Hiệu năng:** Độ trễ truy vấn trung bình chỉ ~**2.18ms** (nhanh gấp 6.2 lần so với tìm kiếm tuyến tính).
-* **Độ chính xác:** Chỉ số **Precision@5** đạt 80% trong các kịch bản thử nghiệm phức tạp.
-* **Scalability:** Duy trì độ trễ < 10ms ngay cả khi quy mô dữ liệu đạt **100,000 sản phẩm**.
-
-## 🚀 Hướng dẫn cài đặt (Setup Instruction)
-
-1. **Chuẩn bị môi trường:** Triển khai trên Databricks Community hoặc Local Spark.
-2. **Cài đặt thư viện:**
-   ```bash
-      pip install sentence-transformers faiss-cpu pyspark delta-spark ipywidgets
-   ```
-
-3. **Khởi tạo Spark Session với Delta Lake**
-   ```python
-   from pyspark.sql import SparkSession
-
-   spark = SparkSession.builder \
-       .appName("SemanticSearchLakehouse") \
-       .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
-       .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
-       .getOrCreate()
-   ```
-
-4. **Chạy Pipeline xử lý dữ liệu**
-   - Bronze → Silver → Gold
-   - Cleaning → Embedding → Indexing
-
-5. **Khởi tạo Vector Index**
-   ```python
-   import faiss
-
-   index = faiss.IndexFlatIP(384)
-   index.add(embeddings)
-   ```
-
-6. **Thực hiện truy vấn**
-   ```python
-   results = search_engine.search(
-       query="affordable gaming laptop",
-       top_k=5
-   )
-   ```
+The entire pipeline is implemented using:
+- Apache Spark
+- Delta Lake
+- Sentence-BERT
+- FAISS
+- Databricks
 
 ---
 
-## 🔍 Cơ chế hoạt động của hệ thống (How It Works)
+## 🏗 Architecture
 
-### 1️⃣ Data Ingestion
-Dữ liệu sản phẩm Amazon được ingest vào tầng Bronze dưới dạng dữ liệu thô nhằm đảm bảo khả năng truy xuất nguồn gốc và tái xử lý.
+```text
+Raw Data
+   ↓
+Bronze Layer
+   ↓
+Silver Layer
+(Data Cleaning & Standardization)
+   ↓
+Gold Layer
+(Embedding + Semantic Enrichment)
+   ↓
+FAISS Vector Index
+   ↓
+Semantic Retrieval
+   ↓
+Hybrid Ranking
+   ↓
+Search Results
+```
 
-### 2️⃣ Data Cleaning & Standardization
-Pipeline tại tầng Silver thực hiện:
-- Chuẩn hóa giá và ratings
-- Xử lý dữ liệu thiếu
+---
+
+## 🛠 Tech Stack
+
+| Component | Technology |
+|---|---|
+| Data Processing | Apache Spark |
+| Data Platform | Databricks |
+| Storage Layer | Delta Lake |
+| Language | Python |
+| Embedding Model | all-MiniLM-L6-v2 |
+| Vector Search | FAISS |
+| UI | ipywidgets |
+
+---
+
+## 🚀 Installation
+
+### Install dependencies
+
+```bash
+pip install sentence-transformers faiss-cpu pyspark delta-spark ipywidgets
+```
+
+### Initialize Spark Session
+
+```python
+from pyspark.sql import SparkSession
+
+spark = SparkSession.builder \
+    .appName("SemanticSearchLakehouse") \
+    .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension") \
+    .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog") \
+    .getOrCreate()
+```
+
+### Initialize FAISS Index
+
+```python
+import faiss
+
+index = faiss.IndexFlatIP(384)
+index.add(embeddings)
+```
+
+### Example Query
+
+```python
+results = search_engine.search(
+    query="affordable gaming laptop",
+    top_k=5
+)
+```
+
+---
+
+## 🔍 System Workflow
+
+### 1. Data Ingestion
+- Raw Amazon product data is ingested into Bronze Layer.
+
+### 2. Data Cleaning
+Silver Layer performs:
 - Regex cleaning
-- Deduplication bằng Window Functions
+- Missing value handling
+- Rating normalization
+- Price normalization
+- Deduplication
 
-### 3️⃣ Semantic Enrichment
-Tại tầng Gold:
-- Product title + metadata được kết hợp thành `combined_text`
-- Văn bản được chuyển thành vector embedding 384 chiều bằng Sentence-BERT
-- Metadata như:
-  - price tier
-  - rating tier
-  - category
-  được enrich trực tiếp vào biểu diễn ngữ nghĩa
+### 3. Semantic Enrichment
+Gold Layer performs:
+- Combined text generation
+- Sentence-BERT embeddings
+- Metadata enrichment
+- Vector indexing
 
-### 4️⃣ Vector Retrieval
-FAISS được sử dụng để:
-- Index vector embeddings
-- Thực hiện nearest neighbor search
-- Tăng tốc truy vấn semantic similarity
+### 4. Semantic Retrieval
+FAISS is used for:
+- Nearest Neighbor Search
+- Fast vector similarity retrieval
 
-### 5️⃣ Hybrid Ranking
-Kết quả cuối cùng được xếp hạng dựa trên:
+### 5. Hybrid Ranking
+Final ranking combines:
 - Semantic similarity
 - Product ratings
 - Price/value signals
 
-Trong trường hợp metadata thiếu hoặc không hợp lệ, hệ thống áp dụng cơ chế fallback giá nhằm đảm bảo tính ổn định của pipeline xếp hạng.
-
 ---
 
-## 📈 Các chỉ số đánh giá (Evaluation Metrics)
-
-### Precision@K
-Đo lường tỷ lệ kết quả liên quan trong top-K sản phẩm đầu tiên.
-
-:contentReference[oaicite:0]{index=0}
-
-### Mean Reciprocal Rank (MRR)
-Đánh giá vị trí xuất hiện của kết quả đúng đầu tiên.
-
-:contentReference[oaicite:1]{index=1}
-
----
-
-## 🧪 Kết quả thực nghiệm (Benchmarking)
+## 📊 Experimental Results
 
 | Metric | Semantic Search | Keyword Search |
 |---|---|---|
 | Average Precision@5 | **0.820** | 0.500 |
 | Average MRR | **0.825** | 0.631 |
-| Avg Latency | **2.18ms** | 13.62ms |
-| Scalability | Stable <10ms | Linear slowdown |
+| Average Latency | **1.88 ms** | 14.24 ms |
+| Speed Improvement | **7.6x faster** | Baseline |
 
-### Một số truy vấn tiêu biểu:
-| Query | Semantic Search | Keyword Search |
+### Win/Loss Summary
+
+| Metric | Semantic Wins | Keyword Wins |
 |---|---|---|
-| portable computer for gaming | ✅ Hiểu là gaming laptop | ❌ Match từ khóa rời rạc |
-| affordable wireless audio | ✅ Ưu tiên wireless headphones | ⚠ Kết quả thiếu ngữ cảnh |
-| cordless pointing device | ⚠ Semantic drift | ✅ Match keyword “device” |
+| Precision@5 | 7/10 | 3/10 |
+| MRR | 6/10 | 4/10 |
 
 ---
 
-## 💡 Đóng góp chính của dự án (Key Contributions)
+## 💡 Key Contributions
 
-### ✅ Về học thuật
-- Kết hợp Information Retrieval + Machine Learning + Data Engineering trong một pipeline thống nhất.
-- Chứng minh hiệu quả của Semantic Search trong môi trường E-commerce thực tế.
-- Phân tích trade-off giữa Keyword Search và Semantic Search.
-
-### ✅ Về kỹ thuật
-- Xây dựng end-to-end Semantic Search pipeline trên Data Lakehouse.
-- Tích hợp metadata-aware ranking.
-- Tối ưu latency bằng FAISS Index.
-- Thiết kế pipeline scalable theo Medallion Architecture.
-
-### ✅ Về ứng dụng thực tiễn
-- Cải thiện trải nghiệm tìm kiếm sản phẩm.
-- Hỗ trợ truy vấn ngôn ngữ tự nhiên.
-- Tăng khả năng hiểu user intent trong E-commerce systems.
+- End-to-end Semantic Search pipeline
+- Data Lakehouse-based architecture
+- Metadata-aware ranking
+- FAISS latency optimization
+- Scalable Medallion Architecture
 
 ---
 
-## ⚠ Hạn chế hiện tại (Limitations)
+## ⚠ Limitations
 
-- Chưa fine-tune embedding model theo domain thương mại điện tử.
-- Chưa triển khai ANN index nâng cao như IVF/PQ/HNSW.
-- Truy vấn hiện tại chủ yếu bằng tiếng Anh.
-- Chưa tích hợp feedback loop từ hành vi người dùng.
-
----
-
-## 🔮 Hướng phát triển tương lai (Future Work)
-
-Trong tương lai, hệ thống có thể được mở rộng theo các hướng:
-- Hybrid Search (Keyword + Semantic).
-- Fine-tuning embedding model theo domain E-commerce.
-- Personalized Search dựa trên user behavior.
-- Real-time streaming pipeline.
-- Triển khai Vector Database chuyên dụng như Milvus hoặc Pinecone.
-- Tích hợp Large Language Models (LLMs) cho Conversational Search.
+- No domain-specific fine-tuning
+- English-only queries
+- No advanced ANN indexing
+- No user feedback loop
 
 ---
 
-## 👨‍💻 Authors
-Nhóm thực hiện:
-- [Tên thành viên 1]
-- [Tên thành viên 2]
-- [Tên thành viên 3]
+## 🔮 Future Work
 
-Giảng viên hướng dẫn:
-- [Tên GVHD]
+- Hybrid Search
+- Personalized Search
+- Real-time streaming pipeline
+- LLM-based Conversational Search
+- Vector Databases (Milvus, Pinecone)
+
+---
+
+## 👨‍💻 Nhóm sinh viên thực hiện: Nhóm 3
+
+| Họ và tên | Student ID |
+|---|---|
+| Nguyễn Vũ Thanh Giang| 31231026898 |
+| Nguyễn Vĩnh Hoàng | 31231024973 |
+| Hoàng Hữu Hưng | 31231027485 |
+| Nguyễn Đình Gia Huy | 31231026899 |
+| Nguyễn Thành Huy | 31231025985 |
+---
+
+## 👨‍🏫 Giảng viên hướng dẫn
+
+- TS. Nguyễn An Tế
 
 ---
 
 ## 📚 References
-- Reimers & Gurevych (2019) — Sentence-BERT
-- Armbrust et al. (2020) — Data Lakehouse
-- Johnson et al. (2017) — FAISS
-- Manning et al. (2008) — Information Retrieval
-- Databricks Documentation
-- Hugging Face Transformers
 
----
-
-## ⭐ Project Highlights
-✅ Semantic Search for E-commerce  
-✅ Data Lakehouse Architecture  
-✅ Vector Embeddings + FAISS  
-✅ Metadata-aware Ranking  
-✅ Real-time Retrieval  
-✅ Scalable Data Engineering Pipeline
+- Sentence-BERT (Reimers & Gurevych, 2019)
+- FAISS (Johnson et al., 2017)
+- Data Lakehouse (Armbrust et al., 2020)
+- Manning et al. — Information Retrieval
