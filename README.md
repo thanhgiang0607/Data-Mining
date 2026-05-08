@@ -143,17 +143,10 @@ Kết quả cuối cùng được xếp hạng dựa trên:
 
 | Metric | Semantic Search | Keyword Search |
 |---|---|---|
-| Average Precision@5 | **0.820** | 0.500 |
-| Average MRR | **0.825** | 0.631 |
-| Average Latency | **1.88 ms** | 14.24 ms |
-| Speed Improvement | **7.6x faster** | Baseline |
+| Average Precision@5 | **0.540** | 0.240 |
+| Average MRR | **0.695** | 0.370 |
 
-### Tổng hợp Win/Loss
 
-| Metric | Semantic Wins | Keyword Wins |
-|---|---|---|
-| Precision@5 | 7/10 | 3/10 |
-| MRR | 6/10 | 4/10 |
 
 ---
 
