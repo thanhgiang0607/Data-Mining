@@ -177,30 +177,8 @@ Kết quả cuối cùng được xếp hạng dựa trên:
 - Conversational Search với LLMs
 - Vector Database (Milvus, Pinecone)
 
----
-
-## 👨‍💻 Thành viên nhóm
-
-| Họ và tên | MSSV |
-|---|---|
-| Nguyễn Vũ Thanh Giang| 31231026898 |
-| Nguyễn Vĩnh Hoàng | 31231024973 |
-| Hoàng Hữu Hưng | 31231027485 |
-| Nguyễn Đình Gia Huy | 31231026899 |
-| Nguyễn Thành Huy | 31231025985 |
 
 
 ---
 
-## 👨‍🏫 Giảng viên hướng dẫn
 
-- TS. Nguyễn An Tế
-
----
-
-## 📚 Tài liệu tham khảo
-
-- Reimers & Gurevych (2019) — Sentence-BERT
-- Johnson et al. (2017) — FAISS
-- Armbrust et al. (2020) — Data Lakehouse
-- Manning et al. — Information Retrieval
