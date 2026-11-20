@@ -1,0 +1,23 @@
+{
+  "gold_size": 28858,
+  "silver_size": 396210,
+  "bronze_size": 1103170,
+  "metrics": {
+    "Keyword Search (baseline)": {
+      "precision@5": 0.16,
+      "mrr": 0.32666666666666666
+    },
+    "Semantic Search (FAISS)": {
+      "precision@5": 0.45999999999999996,
+      "mrr": 0.5658333333333334
+    },
+    "Hybrid (w=0.15)": {
+      "precision@5": 0.5000000000000001,
+      "mrr": 0.5933333333333333
+    }
+  },
+  "latency_ms": {
+    "numpy_bruteforce": 3.0860835686326027,
+    "faiss_flat_ip": 1.0729795321822166
+  }
+}

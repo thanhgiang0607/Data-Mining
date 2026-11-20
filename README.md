@@ -132,21 +132,26 @@ FAISS được sử dụng để:
 - Tăng tốc truy vấn semantic similarity
 
 ### 5. Hybrid Ranking
-Kết quả cuối cùng được xếp hạng dựa trên:
-- Semantic similarity
-- Ratings
-- Price/value signals
+`hybrid_search()` lấy top-50 ứng viên theo semantic similarity, sau đó xếp hạng lại theo:
+- `score = similarity + w × popularity_chuẩn_hóa`, với popularity = rating × log(1 + số lượt đánh giá)
 
 ---
 
 ## 📊 Kết quả thực nghiệm
 
-| Metric | Semantic Search | Keyword Search |
+Tái lập cục bộ bằng `python local_eval.py` (pandas thay cho Spark, cùng quy tắc làm sạch và cùng cách lấy mẫu Gold):
+Bronze 1,103,170 → Silver 396,210 → Gold 28,858 sản phẩm. Kết quả lưu tại `local_eval_results.json`.
+
+| Phương pháp | Precision@5 | MRR |
 |---|---|---|
-| Average Precision@5 | **0.540** | 0.240 |
-| Average MRR | **0.695** | 0.370 |
+| Keyword Search (baseline) | 0.160 | 0.327 |
+| Semantic Search (FAISS) | 0.460 | 0.566 |
+| **Hybrid (Semantic + Popularity, w=0.15)** | **0.500** | **0.593** |
 
+Độ trễ tìm kiếm trên 28,858 vector thật (trung vị 100 truy vấn): NumPy brute force 3.09 ms, FAISS `IndexFlatIP` 1.07 ms.
 
+> ⚠ Bộ test chỉ gồm 10 truy vấn, nhãn đúng xác định bằng từ khóa trong tên sản phẩm → kết quả mang tính tham khảo.
+> Trọng số hybrid `w=0.15` được cố định trước, không tinh chỉnh trên bộ test. Số liệu trên Databricks có thể chênh lệch nhẹ do khác biệt khi lấy mẫu Gold.
 
 ---
 
